@@ -72,7 +72,7 @@ class Donnees extends Fixture
             // Associer la bonne rubrique
             $idRubriqueSource = $sr['id_rubrique'];
             if (isset($rubriqueEntities[$idRubriqueSource])) {
-                $sous_rubriqueEntity->setIdRubrique($rubriqueEntities[$idRubriqueSource]);
+                $sous_rubriqueEntity->setRubrique($rubriqueEntities[$idRubriqueSource]);
             } else {
                 throw new \Exception("Rubrique source $idRubriqueSource non trouvée");
             }

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\RubriqueRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: RubriqueRepository::class)]
@@ -19,6 +21,14 @@ class Rubrique
     #[ORM\Column(length: 255)]
     private ?string $img_rubrique = null;
 
+    #[ORM\OneToMany(mappedBy: 'rubrique', targetEntity: SousRubrique::class, cascade: ['persist', 'remove'])]
+    private Collection $sous_rubriques;
+
+    public function __construct()
+    {
+        $this->sous_rubriques = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -32,7 +42,6 @@ class Rubrique
     public function setNomRubrique(string $nom_rubrique): static
     {
         $this->nom_rubrique = $nom_rubrique;
-
         return $this;
     }
 
@@ -44,7 +53,30 @@ class Rubrique
     public function setImgRubrique(string $img_rubrique): static
     {
         $this->img_rubrique = $img_rubrique;
+        return $this;
+    }
 
+    public function getSousRubriques(): Collection
+    {
+        return $this->sous_rubriques;
+    }
+
+    public function addSousRubrique(SousRubrique $sousRubrique): static
+    {
+        if (!$this->sous_rubriques->contains($sousRubrique)) {
+            $this->sous_rubriques->add($sousRubrique);
+            $sousRubrique->setRubrique($this);
+        }
+        return $this;
+    }
+
+    public function removeSousRubrique(SousRubrique $sousRubrique): static
+    {
+        if ($this->sous_rubriques->removeElement($sousRubrique)) {
+            if ($sousRubrique->getRubrique() === $this) {
+                $sousRubrique->setRubrique(null);
+            }
+        }
         return $this;
     }
 }

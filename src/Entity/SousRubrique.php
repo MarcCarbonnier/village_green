@@ -19,9 +19,9 @@ class SousRubrique
     #[ORM\Column(length: 255)]
     private ?string $img_sous_rubrique = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(inversedBy: 'sous_rubriques')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Rubrique $id_rubrique = null;
+    private ?Rubrique $rubrique = null;
 
     public function getId(): ?int
     {
@@ -36,7 +36,6 @@ class SousRubrique
     public function setNomSousRubrique(string $nom_sous_rubrique): static
     {
         $this->nom_sous_rubrique = $nom_sous_rubrique;
-
         return $this;
     }
 
@@ -48,19 +47,17 @@ class SousRubrique
     public function setImgSousRubrique(string $img_sous_rubrique): static
     {
         $this->img_sous_rubrique = $img_sous_rubrique;
-
         return $this;
     }
 
-    public function getIdRubrique(): ?Rubrique
+    public function getRubrique(): ?Rubrique
     {
-        return $this->id_rubrique;
+        return $this->rubrique;
     }
 
-    public function setIdRubrique(?Rubrique $id_rubrique): static
+    public function setRubrique(?Rubrique $rubrique): static
     {
-        $this->id_rubrique = $id_rubrique;
-
+        $this->rubrique = $rubrique;
         return $this;
     }
 }

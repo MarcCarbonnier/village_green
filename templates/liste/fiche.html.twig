@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ produit.libelleProduit }}{% endblock %}
+
+{% block body %}
+
+<div class="pro_center">
+    <div class="card">
+        <img src="{{ produit.photoproduit}}" class="card-img-top" alt="{{produit.libelleproduit}}">
+        <div class="card-body">
+            <h5 class="title">{{produit.libelleproduit}}</h5>
+            <p class="card-text">{{ produit.descriptionProduit }}</p>
+            <p class="card-text"><strong>Prix : {{ produit.prixVenteHt }} €</strong></p>
+            <a href="#" class="btn btn-primary">Ajouter au panier</a>
+        </div>
+    </div>
+</div>
+
+<a href="{{ path('app_pro', {id: produit.idSousRubrique.id}) }}" class="back">← Retour aux produits</a>
+
+
+
+{% endblock %}

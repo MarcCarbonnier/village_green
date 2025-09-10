@@ -1,20 +1,21 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AccueilController!{% endblock %}
+{% block title %}Accueil{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+<div class="rub_list">
+    {% for rubrique in rub %}
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/Users/hype/Documents/DEV/village_green/village_green/src/Controller/AccueilController.php</code></li>
-        <li>Your template at <code>/Users/hype/Documents/DEV/village_green/village_green/templates/accueil/index.html.twig</code></li>
-    </ul>
+    <div class="card text-bg-light">
+        <a href="{{ path('app_rub', {id: rubrique.id}) }}">
+            <img src="./img/{{rubrique.imgrubrique}}" class="card-img" alt="...">
+            <div class="card-img-overlay">
+            <h2 class="card-title">{{ rubrique.nomrubrique }}</h2>
+        </div>
+        </a>
+    </div>
+    
+    {% endfor %}
 </div>
 {% endblock %}

@@ -10,10 +10,15 @@ services:
       - host.docker.internal:host-gateway
 
   db:
-    image: mariadb:10.6
+    image: mariadb:11.8
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: Afpa1234
+      MYSQL_DATABASE: village_green_fr
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: Marc2003.
+    ports:
+      - "3307:3306"
 
   phpmyadmin:
     image: phpmyadmin

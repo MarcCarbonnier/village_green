@@ -1,0 +1,120 @@
+@startuml
+class Rubrique {
+	**id : int**
+	nom_rubrique : string
+	img_rubrique : string
+	<color:#0000dd>sous_rubriques : Doctrine\Common\Collections\Collection</color>
+}
+
+class Livraison {
+	**id : int**
+	<color:#0000dd>id_client : App\Entity\Client</color>
+	adresse_livraison : string
+	date_livraison : DateTime
+	status_livraison : string
+}
+
+class Contient {
+	**id : int**
+	<color:#0000dd>id_produit : App\Entity\produit</color>
+	<color:#0000dd>id_bon_commande : App\Entity\BonCommande</color>
+	quantite : string
+}
+
+class Produit {
+	**id : int**
+	libelle_produit : string
+	prix_achat_ht : string
+	photo_produit : string
+	prix_vente_ht : string
+	description_produit : string
+	<color:#0000dd>id_sous_rubrique : App\Entity\SousRubrique</color>
+	<color:#0000dd>id_rubrique : App\Entity\Rubrique</color>
+}
+
+class Facture {
+	**id : int**
+	<color:#0000dd>id_bon_commande : Doctrine\Common\Collections\Collection</color>
+	bon_livraison : int
+	facture : int
+	date_payement : DateTime
+	type_payement : string
+}
+
+class BonCommande {
+	**id : int**
+	desc_commande : string
+	ident_produit : string
+	prix_ht : string
+	tva : string
+	quant_produit : int
+	montant_total_ht : string
+	montant_total_ttc : string
+	date_livraison : DateTime
+	frais_port : string
+	moyen_payement : string
+	acompte : string
+	delai_reglement : string
+	num_commande : string
+	statut_commande : string
+	date_edition_bon : DateTime
+	<color:#0000dd>facture : App\Entity\Facture</color>
+	<color:#0000dd>ref_client : App\Entity\Client</color>
+}
+
+class Livre {
+	**id : int**
+	<color:#0000dd>id_founisseurs : App\Entity\fournisseurs</color>
+	<color:#0000dd>id_produit : App\Entity\produit</color>
+}
+
+class SousRubrique {
+	**id : int**
+	nom_sous_rubrique : string
+	img_sous_rubrique : string
+	<color:#0000dd>rubrique : App\Entity\Rubrique</color>
+}
+
+class Fournisseurs {
+	**id : int**
+	ref_fournisseurs : string
+	nom_fournisseurs : string
+	type_fournisseurs : string
+}
+
+class Client {
+	**id : int**
+	code_client : string
+	<color:#0000dd>ref_client : Doctrine\Common\Collections\Collection</color>
+	type_client : string
+	nom_client : string
+	prenom_client : string
+	coeff_prix : string
+	nom_commercial : string
+	reduction_sup : string
+	adresse_facturation : string
+	siren_client : string
+	forme_juridique_client : string
+	siege_social : string
+	adresse_livraison : string
+	forme_juridique : string
+	num_ident_RCS : string
+}
+
+Rubrique "1"--"*" SousRubrique
+Livraison "*"--"1" App\Entity\Client
+Contient "*"--"1" App\Entity\produit
+Contient "*"--"1" App\Entity\BonCommande
+Produit "*"--"1" App\Entity\SousRubrique
+Produit "*"--"1" App\Entity\Rubrique
+Facture "1"--"*" BonCommande
+BonCommande "*"--"1" App\Entity\Facture
+BonCommande "*"--"1" App\Entity\Client
+Livre "*"--"1" App\Entity\fournisseurs
+Livre "*"--"1" App\Entity\produit
+SousRubrique "*"--"1" App\Entity\Rubrique
+Client "1"--"*" BonCommande
+
+hide methods
+hide circle
+@enduml
