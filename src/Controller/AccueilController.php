@@ -60,7 +60,7 @@ final class AccueilController extends AbstractController
         ]);
     }
 
-
+    # Affiche le produit selectionner
     #[Route('/fiche-produit/{id}', name: 'app_produit_fiche')]
     public function produitFiche(int $id, ProduitRepository $produitRepo): Response
     {
