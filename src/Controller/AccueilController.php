@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Produit;
 use App\Repository\ProduitRepository;
 use App\Repository\RubriqueRepository;
 use App\Repository\SousRubriqueRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -67,7 +69,38 @@ final class AccueilController extends AbstractController
         $produit = $produitRepo->find($id);
 
         return $this->render('liste/fiche.html.twig', [
+            'controller_name' => 'AccueilController',
             'produit' => $produit,
         ]);
     }
+
+    # Affichage du panier
+    #[Route('/panier', name: 'app_panier')]
+    public function panier(): Response
+    {
+
+        return $this->render('panier/index.html.twig', [
+            'controller_name' => 'AccueilController',
+        ]);
+    }
+
+    #[Route('/panier/add/{produit}', name: 'app_panier_add')]
+    public function add(Produit $produit, Request $request): Response
+    {
+
+        $session = $request->getSession();
+
+        $panier = $session->get('panier',[]);
+
+        $panier[$produit->getId()] = 1;
+
+        $session->set('panier', $panier);
+
+        dd($panier);
+
+        return $this->render('panier/index.html.twig', [
+            'controller_name' => 'AccueilController',
+        ]);
+    }
+
 }
