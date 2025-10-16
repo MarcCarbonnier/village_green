@@ -13,12 +13,12 @@ services:
     image: mariadb:11.8
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: Afpa1234
+      MYSQL_ROOT_PASSWORD: Code309
       MYSQL_DATABASE: village_green_fr
-      MYSQL_USER: admin
-      MYSQL_PASSWORD: Marc2003.
+      MYSQL_USER: root
+      MYSQL_PASSWORD: Code309
     ports:
-      - "3307:3306"
+      - "3306:3306"
 
   phpmyadmin:
     image: phpmyadmin

@@ -93,3 +93,6 @@ footer{
     display: flex;
     justify-content: center;
 }
+.panier_title{
+    color: rgb(104, 20, 20);
+}

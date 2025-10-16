@@ -6,9 +6,11 @@ use App\Entity\Produit;
 use App\Repository\ProduitRepository;
 use App\Repository\RubriqueRepository;
 use App\Repository\SousRubriqueRepository;
+use SessionIdInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Attribute\Route;
 
 
@@ -74,25 +76,43 @@ final class AccueilController extends AbstractController
         ]);
     }
 
-    # Affichage du panier
     #[Route('/panier', name: 'app_panier')]
-    public function panier(): Response
+    public function panier(Session $session, ProduitRepository $produitRepo): Response
     {
+        $panier = $session->get('panier', []);
+
+        $panierAvecDetails = [];
+
+        foreach ($panier as $id => $quantite) {
+            $produit = $produitRepo->find($id);
+            if ($produit) {
+                $panierAvecDetails[] = [
+                    'produit' => $produit,
+                    'quantite' => $quantite,
+                    'panier' => $panier
+                ];
+            }
+        }
 
         return $this->render('panier/index.html.twig', [
-            'controller_name' => 'AccueilController',
+            'panier' => $panierAvecDetails,
         ]);
     }
 
-    #[Route('/panier/add/{produit}', name: 'app_panier_add')]
+
+    # Ajoute les produits au panier
+    #[Route('/panier/add/{id}', name: 'app_panier_add')]
     public function add(Produit $produit, Request $request): Response
     {
 
         $session = $request->getSession();
 
-        $panier = $session->get('panier',[]);
+        $panier = $session->get('panier', []);
 
-        $panier[$produit->getId()] = 1;
+        if (isset($panier[$produit->getId()]))
+            $panier[$produit->getId()]++;
+        else
+            $panier[$produit->getId()] = 1;
 
         $session->set('panier', $panier);
 
@@ -103,4 +123,12 @@ final class AccueilController extends AbstractController
         ]);
     }
 
+    #[Route('/panier/del/{id', name: 'app_panier_del')]
+    public function del(Produit $produit, Request $request): Response
+    {
+
+        return $this->render('panier/index.html.twig',[
+
+        ]);
+    }
 }
