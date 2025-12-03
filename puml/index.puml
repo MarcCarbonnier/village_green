@@ -21,6 +21,17 @@ class Contient {
 	quantite : string
 }
 
+class User {
+	**id : int**
+	nom : string
+	prenom : string
+	email : string
+	adresse : string
+	codePostal : string
+	password : string
+	roles : array
+}
+
 class Produit {
 	**id : int**
 	libelle_produit : string

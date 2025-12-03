@@ -6,11 +6,16 @@ use App\Entity\Produit;
 use App\Repository\ProduitRepository;
 use App\Repository\RubriqueRepository;
 use App\Repository\SousRubriqueRepository;
+use App\Entity\User;
+use App\Form\UserType;
+use Doctrine\ORM\EntityManagerInterface;
 use SessionIdInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
 
@@ -64,11 +69,15 @@ final class AccueilController extends AbstractController
         ]);
     }
 
-    # Affiche le produit selectionner
-    #[Route('/fiche-produit/{id}', name: 'app_produit_fiche')]
+    #[Route('/fiche-produit/{id}', name: 'app_produit_fiche', requirements: ['id' => '\d+'])]
     public function produitFiche(int $id, ProduitRepository $produitRepo): Response
     {
         $produit = $produitRepo->find($id);
+
+        if (!$produit) {
+            // Si le produit n'existe pas, on renvoie une 404
+            throw $this->createNotFoundException('Produit non trouvé.');
+        }
 
         return $this->render('liste/fiche.html.twig', [
             'controller_name' => 'AccueilController',
@@ -94,6 +103,7 @@ final class AccueilController extends AbstractController
             }
         }
 
+
         return $this->render('panier/index.html.twig', [
             'panier' => $panierAvecDetails,
         ]);
@@ -116,19 +126,51 @@ final class AccueilController extends AbstractController
 
         $session->set('panier', $panier);
 
-        dd($panier);
+        // dd($panier);
 
-        return $this->render('panier/index.html.twig', [
-            'controller_name' => 'AccueilController',
-        ]);
+        return $this->redirectToRoute('app_panier');
     }
 
-    #[Route('/panier/del/{id', name: 'app_panier_del')]
+    #[Route('/panier/del/{id}', name: 'app_panier_del')]
     public function del(Produit $produit, Request $request): Response
     {
+        $session = $request->getSession();
+        $panier = $session->get('panier', []);
 
-        return $this->render('panier/index.html.twig',[
+        $id = $produit->getId();
 
+        // Supprime le produit du panier
+        if (isset($panier[$id])) {
+            unset($panier[$id]);
+        }
+
+        $session->set('panier', $panier);
+
+        // Redirige vers le panier
+        return $this->redirectToRoute('app_panier');
+    }
+
+    #[Route('/inscription', name: 'app_inscription')]
+    public function register(Request $request, EntityManagerInterface $em, UserPasswordHasherInterface $hasher): Response
+    {
+        $user = new User();
+
+        $form = $this->createForm(UserType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $hashed = $hasher->hashPassword($user, $user->getPassword());
+            $user->setPassword($hashed);
+
+            $em->persist($user);
+            $em->flush();
+
+            return $this->redirectToRoute('app_accueil');
+        }
+
+        return $this->render('user/register.html.twig', [
+            'form' => $form->createView()
         ]);
     }
 }

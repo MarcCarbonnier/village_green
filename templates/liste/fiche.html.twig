@@ -6,12 +6,12 @@
 
 <div class="pro_center">
     <div class="card">
-        <img src="{{ produit.photoproduit}}" class="card-img-top" alt="{{produit.libelleproduit}}">
+        <img src="../../../img/{{ produit.photoproduit}}" class="card-img-top" alt="{{produit.libelleproduit}}">
         <div class="card-body">
             <h5 class="title">{{produit.libelleproduit}}</h5>
             <p class="card-text">{{ produit.descriptionProduit }}</p>
             <p class="card-text"><strong>Prix : {{ produit.prixVenteHt }} €</strong></p>
-            <a href="#" class="btn btn-primary">Ajouter au panier</a>
+            <a href="{{ path('app_panier_add', {'id': produit.id}) }}" class="btn btn-primary">Ajouter au panier</a>
         </div>
     </div>
 </div>

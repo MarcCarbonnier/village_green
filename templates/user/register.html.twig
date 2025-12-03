@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block body %}
+
+
+<div class="container_form">
+
+    <div class="form_box">
+
+    <img src="/img/Usericon.png" class="user_icon">
+
+    {{ form_start(form) }}
+
+        <div class="form_group">{{ form_row(form.nom) }}</div>
+        <div class="form_group">{{ form_row(form.prenom) }}</div>
+        <div class="form_group">{{ form_row(form.email) }}</div>
+        <div class="form_group">{{ form_row(form.adresse) }}</div>
+        <div class="form_group">{{ form_row(form.codePostal) }}</div>
+        <div class="form_group">{{ form_row(form.password) }}</div>
+
+        <button class="btn_validate">Valider</button>
+
+        <p class="se_connecter">Vous avez déjà un compte ? <a class="link_connection" href="{{ path('app_login') }}">Connectez-vous</a></p>
+
+    {{ form_end(form) }}
+
+</div>
+
+
+</div>
+
+
+
+
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion
+{% endblock %}
+
+{% block body %}
+
+	<h1 class="page_title">Se connecter</h1>
+
+	<div class="form_container">
+		<form method="post">
+
+			<div class="form_box">
+
+				<h2 class="form_title">Connexion</h2>
+
+				<div class="field_group">
+					<label>Email</label>
+					<input type="email" name="_username" id="inputEmail" placeholder="Entrez votre email" value="{{ last_username }}" required autofocus>
+				</div>
+
+				<div class="field_group">
+					<label>Mot de passe</label>
+					<input type="password" name="_password" id="inputPassword" placeholder="Entrez votre mot de passe" required>
+				</div>
+
+				<button class="btn_validate">Se connecter</button>
+
+				<p class="se_connecter">
+					Pas encore de compte ?
+					<a class="link_connection" href="{{ path('app_inscription') }}">Créer un compte</a>
+				</p>
+
+				{% if error %}
+					<p class="error_msg">Identifiants incorrects</p>
+				{% endif %}
+			</div>
+
+		</form>
+	</div>
+
+{% endblock %}
