@@ -267,13 +267,53 @@ label {
 
 }
 
-/* Tablette (≥ 768px et < 992px) */
+
 @media (min-width: 768px) and (max-width: 991px) {
     .containers{
         width: 58vh;
         height: 5vh;
     }
     .panier{
-        right: 55vh;
+        right: 16vh;
+        height: 3vh;
+        margin-top: 20px;
+    }
+    .title{
+        font-size: 3vh;
+        margin-top: 20px;
+    }
+    .icon_left{
+        left: 16vh;
+        height: 3vh;
+    }
+    .User{
+        height: 3vh;
+        margin-top: 20px;
+    }
+    .rub_list{
+        width: 50vh;
+        margin-left: 10vw;
+        height: 118vh;
+        margin-top: 3vh;
+    }
+    .card{
+        width: 50vh;
+        height: 20vh;
+        margin-top: 50px;
+    }
+    .card-img{
+        height: 20vh;
+    }
+    .Name{
+        width: 58vh;
+    }.pro_center{
+        height: 118vh;
+    }
+    .card-body{
+        color: white;
+    }
+    footer{
+        width: 58vh;
+        height: 5vh;
     }
 }

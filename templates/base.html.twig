@@ -8,7 +8,7 @@
 		</title>
 		<link rel="icon" href="./img/favicon.png">
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-		<link rel="stylesheet" href="{{ asset('CSS/index.css') }}"> {% block stylesheets %}{% endblock %}{% block javascripts %}{% endblock %}
+		<link rel="stylesheet" href="{{ asset('CSS/index.css') }}"> {% block stylesheets %}{% endblock %}
 		</head>
 		<body>
 			<div class="containers">
@@ -31,5 +31,6 @@
 					<a href="#" class="foot-end">Contact</a>
 				</div>
 			</footer>
+			{% block javascripts %}{% endblock %}
 		</body>
 	</html>
